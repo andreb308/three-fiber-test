@@ -1,23 +1,16 @@
-import React, { useLayoutEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useLayoutEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import './style.css';
 import {
   OrbitControls,
   Stars,
-  Cloud,
-  PerformanceMonitor,
+  // Cloud,
+  // PerformanceMonitor,
 } from '@react-three/drei/core';
 import { Gradient } from './components/Gradient.js';
-/**********************************************************************************************
+import Mesh from './components/Mesh';
+import Input from './components/Input';
 
-  IDEIAS:
-
-  1. Colorir o fundo de preto
-  2. Importar as imagens
-  3. Usar map e random para colocar os objetos no céu
-  4. Adicionar um fundo no céu
-
- **********************************************************************************************/
 
 export function Overlay() {
   useLayoutEffect(() => {
@@ -27,36 +20,25 @@ export function Overlay() {
 }
 
 export default function App() {
+  const [title, setTitle] = useState('Wireframed \nRed Sphere');
+  const [textVisibility, setTextVisibility] = useState(true);
+
   return (
     <>
+      <Input title={title} setTitle={setTitle} setTextVisibility={setTextVisibility} textVisibility={textVisibility}
+      />
       <canvas id="gradient-canvas" data-transition-in />
       <Overlay />
 
-      <Canvas style={{ position: 'absolute', top: 0, left: 0 }}>
-        {/* <spotLight position={[10, 10, 10]} /> */}
+      <Canvas style={{ position: 'absolute', top: 0, left: 0 }} camera={{position: [0, 0, ]}}>
         <ambientLight />
-        <OrbitControls enableZoom={true} enablePan={true} />
+        <OrbitControls enableZoom={true} enablePan={true} autoRotate />
 
-        <mesh position={[0, 0, 0]}>
-          <sphereGeometry />
-          <meshStandardMaterial color="red" wireframe={true} />
-        </mesh>
+        <Mesh position={[0, 3, 0]} title={title} textVisibility={textVisibility} />
+        <Mesh position={[0, 0, 0]} title={title} textVisibility={textVisibility} />
+        <Mesh position={[0, -3, 0]} title={title} textVisibility={textVisibility} />
 
         <Stars />
-        <Cloud
-          opacity={0.6}
-          speed={0.4} // Rotation speed
-          width={10} // Width of the full cloud
-          depth={0} // Z-dir depth
-          segments={20} // Number of particles
-          color={'hotpink'}
-        />
-
-        <PerformanceMonitor
-          onIncline={() => console.log('Incline')}
-          onDecline={() => console.log('Decline')}
-        />
-        {/* <gridHelper /> */}
       </Canvas>
     </>
   );
@@ -77,4 +59,29 @@ export default function App() {
     <AsciiRenderer fgColor="white" bgColor="transparent" />
   </Canvas>
 
+
+  <PerformanceMonitor
+    onIncline={() => console.log('Incline')}
+    onDecline={() => console.log('Decline')}
+  />
+
+
+
+  <Cloud
+    opacity={0.6}
+    speed={0.4} // Rotation speed
+    width={10} // Width of the full cloud
+    depth={0} // Z-dir depth
+    segments={20} // Number of particles
+    color={'hotpink'}
+  /> 
  ****************************************************************************/
+
+/******************************************************************************************
+
+  IDEIAS:
+
+  1. Importar imagens
+  2. Usar map e random para colocar os objetos no céu
+
+ *****************************************************************************************/
