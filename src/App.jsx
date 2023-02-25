@@ -30,7 +30,7 @@ export default function App() {
       <canvas id="gradient-canvas" data-transition-in />
       <Overlay />
 
-      <Canvas style={{ position: 'absolute', top: 0, left: 0 }} camera={{position: [0, 0, ]}}>
+      <Canvas style={{ position: 'absolute', top: 0, left: 0 }} camera={{position: [0, 0, 5]}}>
         <ambientLight />
         <OrbitControls enableZoom={true} enablePan={true} autoRotate />
 
