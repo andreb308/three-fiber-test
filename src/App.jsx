@@ -1,46 +1,45 @@
-import React, { useLayoutEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import './style.css';
+import React, { useLayoutEffect, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import "./style.css";
 import {
   OrbitControls,
   Stars,
   // Cloud,
   // PerformanceMonitor,
-} from '@react-three/drei/core';
-import { Gradient } from './components/Gradient.js';
-import Mesh from './components/Mesh';
-import Input from './components/Input';
-
+} from "@react-three/drei/core";
+import { Gradient } from "./components/Gradient.js";
+import Mesh from "./components/Mesh";
+import Input from "./components/Input";
+import { AppProvider, AppContext } from "./components/AppContext";
 
 export function Overlay() {
   useLayoutEffect(() => {
     const gradient = new Gradient();
-    gradient.initGradient('#gradient-canvas');
+    gradient.initGradient("#gradient-canvas");
   }, []);
 }
 
 export default function App() {
-  const [title, setTitle] = useState('Wireframed \nRed Sphere');
-  const [textVisibility, setTextVisibility] = useState(true);
-
   return (
-    <>
-      <Input title={title} setTitle={setTitle} setTextVisibility={setTextVisibility} textVisibility={textVisibility}
-      />
+    <AppProvider>
+      <Input />
       <canvas id="gradient-canvas" data-transition-in />
       <Overlay />
 
-      <Canvas style={{ position: 'absolute', top: 0, left: 0 }} camera={{position: [0, 0, 5]}}>
+      <Canvas
+        style={{ position: "absolute", top: 0, left: 0 }}
+        camera={{ position: [0, 0, 5] }}
+      >
         <ambientLight />
         <OrbitControls enableZoom={true} enablePan={true} autoRotate />
 
-        <Mesh position={[0, 3, 0]} title={title} textVisibility={textVisibility} />
-        <Mesh position={[0, 0, 0]} title={title} textVisibility={textVisibility} />
-        <Mesh position={[0, -3, 0]} title={title} textVisibility={textVisibility} />
+        <Mesh position={[0, 3, 0]} />
+        <Mesh position={[0, 0, 0]} />
+        <Mesh position={[0, -3, 0]} />
 
         <Stars />
       </Canvas>
-    </>
+    </AppProvider>
   );
 }
 

@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Text } from '@react-three/drei/core';
+import React, { useState, useContext } from "react";
+import { Text } from "@react-three/drei/core";
+import { AppContext } from "./AppContext";
 
-export default function Mesh({ position, title, textVisibility }) {
+export default function Mesh({ position }) {
   const [count, setCount] = useState(0);
+
+  const { title, textVisibility } = useContext(AppContext);
 
   return (
     <mesh

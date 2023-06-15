@@ -1,8 +1,8 @@
-import React from "react"
+import React from "react";
 import { useFrame } from "@react-three/fiber";
 
 function Cube() {
-  const meshRef = useRef<Mesh>(null);
+  const meshRef = useRef(null);
 
   useFrame(() => {
     if (!meshRef.current) {
