@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [title, setTitle] = useState("Wireframed \nRed Sphere");
+  const [title, setTitle] = useState("@andreb308");
   const [textVisibility, setTextVisibility] = useState(true);
 
   return (

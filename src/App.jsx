@@ -1,16 +1,24 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import "./style.css";
 import {
+  Center,
+  Environment,
   OrbitControls,
-  Stars,
   // Cloud,
   // PerformanceMonitor,
-} from "@react-three/drei/core";
-import { Gradient } from "./components/Gradient.js";
+} from "@react-three/drei";
+import { Gradient } from "./components/Backdrop/Gradient.js";
 import Mesh from "./components/Mesh";
 import Input from "./components/Input";
-import { AppProvider, AppContext } from "./components/AppContext";
+import { AppProvider } from "./components/AppContext";
+import ImageComponent from "./components/Image";
+import CaptureIMG_URL from "../src/assets/Capture001.png";
+import * as THREE from "three";
+import { TextureLoader } from "three";
+import Styled3DText from "./components/Styled3DText";
+import { motion } from "framer-motion-3d";
+import Skybox from "./components/Backdrop/Skybox";
 
 export function Overlay() {
   useLayoutEffect(() => {
@@ -19,25 +27,73 @@ export function Overlay() {
   }, []);
 }
 
+// const addTorus = (ind) => {
+//   const [x, y, z] = Array(3)
+//     .fill()
+//     .map(() => THREE.MathUtils.randFloatSpread(100));
+//   return <Mesh key={ind} position={[x, y, 0]} />;
+// };
+
+const Logo3D = () => {
+  return (
+    <mesh position={[0, 0, -10]}>
+      <planeBufferGeometry args={[1, 1]} />
+      <meshBasicMaterial>
+        <texture attach="map" url={process.env.PUBLIC_URL + "/logo.svg"} />
+      </meshBasicMaterial>
+    </mesh>
+  );
+};
+
 export default function App() {
+  const color = "#ff00ff";
+
   return (
     <AppProvider>
       <Input />
-      <canvas id="gradient-canvas" data-transition-in />
-      <Overlay />
+      {/* <canvas id="gradient-canvas" data-transition-in />
+      <Overlay /> */}
 
       <Canvas
         style={{ position: "absolute", top: 0, left: 0 }}
-        camera={{ position: [0, 0, 5] }}
+        camera={{ position: [0, 0, 7.5] }}
       >
-        <ambientLight />
-        <OrbitControls enableZoom={true} enablePan={true} autoRotate />
+        {/* <ambientLight color={"pink"} /> */}
 
-        <Mesh position={[0, 3, 0]} />
-        <Mesh position={[0, 0, 0]} />
-        <Mesh position={[0, -3, 0]} />
+        <Skybox />
+        <motion.pointLight
+          color={"pink"}
+          // animate={{ scale: 0 }}
+          intensity={1}
+          position={[0, 0, 10]}
+        />
 
-        <Stars />
+        <OrbitControls
+          reverseOrbit
+          enablePan={false}
+          enableRotate
+          enableZoom={false}
+        />
+
+        {/* <ImageComponent  position={[0, 0, 0]} /> */}
+
+        <Center>
+          <Styled3DText color={color} />
+          {/* <mesh>
+            <planeBufferGeometry args={[3.704, 1]} />
+            <meshBasicMaterial map={useLoader(TextureLoader, CaptureIMG_URL)} />
+          </mesh> */}
+          {/* <meshNormalMaterial /> */}
+        </Center>
+        {/* {Array(10)
+          .fill()
+          .forEach((val, ind) => addTorus(ind))} */}
+        <Mesh color={color} position={[0, 3, 0]} />
+        <Mesh color={color} position={[0, -3, 0]} />
+        <Mesh color={color} position={[-5, 0, 0]} />
+        <Mesh color={color} position={[5, 0, 0]} />
+
+        {/* <Stars /> */}
       </Canvas>
     </AppProvider>
   );
