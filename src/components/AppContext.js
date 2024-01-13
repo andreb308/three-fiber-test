@@ -5,9 +5,21 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const queryParameters = new URLSearchParams(window.location.search);
   const searchParam = queryParameters.get("title");
-  const visibilityParam = parseInt(queryParameters.get("visible"));
-  const [title, setTitle] = useState(searchParam || "@andreb308");
-  const [textVisibility, setTextVisibility] = useState(visibilityParam ? true : false);
+
+  let visibilityParam = queryParameters.get("visible");
+  switch (visibilityParam) {
+    case "0":
+      visibilityParam = false;
+      break;
+    case "false":
+      visibilityParam = false;
+      break;
+    default:
+      visibilityParam = true;
+  }
+
+  const [title, setTitle] = useState(searchParam || "@andreb.jpg");
+  const [textVisibility, setTextVisibility] = useState(visibilityParam);
 
   return (
     <AppContext.Provider

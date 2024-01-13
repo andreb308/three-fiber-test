@@ -12,13 +12,13 @@ export default function Styled3DText({ color }) {
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime();
     // myMesh.current.rotation.x = Math.cosh(a);
-    myMesh.current.rotation.x = Math.tan(a) / 10;
-    myMesh.current.rotation.z = Math.sin(a) / 30;
+    textVisibility && (myMesh.current.rotation.x = Math.tan(a) / 10);
+    textVisibility && (myMesh.current.rotation.z = Math.sin(a) / 30);
   });
   return (
     <Center>
       <Text3D font={fontUrl} bevelEnabled bevelOffset={0.01} ref={myMesh}>
-        {textVisibility && title}
+        {textVisibility ? title : "Click the\n Shapes!"}
         <meshStandardMaterial color={color} />
       </Text3D>
     </Center>
